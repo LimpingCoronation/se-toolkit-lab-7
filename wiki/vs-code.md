@@ -30,7 +30,7 @@
   - [Look at the current `VS Code Terminal`](#look-at-the-current-vs-code-terminal)
   - [Check the current shell in the `VS Code Terminal`](#check-the-current-shell-in-the-vs-code-terminal)
   - [Expand the sidebar with open `VS Code Terminal`s](#expand-the-sidebar-with-open-vs-code-terminals)
-  - [(`Windows` only) Set the default shell for the `VS Code Terminal`](#windows-only-set-the-default-shell-for-the-vs-code-terminal)
+  - [(`Windows` only) Switch to the `Linux` shell for the `VS Code Terminal`](#windows-only-switch-to-the-linux-shell-for-the-vs-code-terminal)
   - [Run a command in the `VS Code Terminal`](#run-a-command-in-the-vs-code-terminal)
 - [`Explorer`](#explorer)
   - [Open the `Explorer`](#open-the-explorer)
@@ -327,7 +327,9 @@ Method 2:
 
    - `Windows`: `bash`;
 
-      If you see something else, [set the default shell](#windows-only-set-the-default-shell-for-the-vs-code-terminal).
+      If you see something else, you're not using `Linux`.
+
+      [Switch to the `Linux` shell for the `VS Code Terminal`](#windows-only-switch-to-the-linux-shell-for-the-vs-code-terminal).
    - `macOS`, `Linux`: `zsh`, `bash`, or another [shell](./shell.md#shell-variants) name;
 
 ### Expand the sidebar with open `VS Code Terminal`s
@@ -337,7 +339,7 @@ Method 2:
 
    <img alt="Terminal - Expand Open Terminals" src="./images/vs-code/terminal-expand-open-terminals.png" style="width:300px"></img>
 
-### (`Windows` only) Set the default shell for the `VS Code Terminal`
+### (`Windows` only) Switch to the `Linux` shell for the `VS Code Terminal`
 
 1. Make sure you can [run `VS Code` in `WSL`](#windows-only-set-up-running-vs-code-in-wsl).
 2. [Reopen the directory in `WSL`](#windows-only-reopen-the-directory-in-wsl)
