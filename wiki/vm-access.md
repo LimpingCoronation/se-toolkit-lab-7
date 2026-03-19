@@ -28,9 +28,6 @@
   - [Restrict the `sshd` config for the user `<user>` (REMOTE)](#restrict-the-sshd-config-for-the-user-user-remote)
   - [Restart `sshd` (REMOTE)](#restart-sshd-remote)
   - [Verify that you can't connect to the VM as the user `root` (LOCAL)](#verify-that-you-cant-connect-to-the-vm-as-the-user-root-local)
-- [Troubleshooting](#troubleshooting)
-  - [`Permission denied (publickey)`](#permission-denied-publickey)
-  - [`Bad owner or permissions`](#bad-owner-or-permissions)
 
 ## About the VM access
 
@@ -659,40 +656,3 @@ Complete these steps:
 
 <!-- 7. If you use the `ms-vscode-remote.remote-ssh` extension in `VS Code`, the status bar should show that you are connected to a remote host.
    TODO explain how to use -->
-
-## Troubleshooting
-
-<!-- TODO make dry and well-formatted -->
-
-- [`Permission denied (publickey)`](#permission-denied-publickey)
-- [`Bad owner or permissions`](#bad-owner-or-permissions)
-- [`Connection timed out`](#connection-timed-out)
-
-### `Permission denied (publickey)`
-
-1. Check `IdentityFile` in `~/.ssh/config`.
-2. Ensure the `SSH` public key was added to the remote host.
-3. Ensure your key is loaded: `ssh-add -l`.
-
-### `Bad owner or permissions`
-
-1. To fix the permissions,
-
-   [run in the `VS Code Terminal`](./vs-code.md#run-a-command-in-the-vs-code-terminal):
-
-   ```terminal
-   chmod 700 ~/.ssh
-   chmod 600 ~/.ssh/se_toolkit_key
-   chmod 644 ~/.ssh/se_toolkit_key.pub
-   ```
-
-5. If you get `Permission denied (publickey)`, check:
-   1. Your public key was added to the VM configuration.
-   2. `IdentityFile` in your `SSH` config points to the correct private key.
-   3. Your private key file permissions are correct (`chmod 600 ~/.ssh/se_toolkit_key` on `Linux`/`macOS`/`WSL`).
-6. Ask the TA to help and show them:
-   1. The VM page.
-   2. The output of `ssh -v se-toolkit-vm`.
-   3. Your [`VS Code Terminal`](./vs-code.md#vs-code-terminal).
-
-<!-- TODO forgot to add SSH key when creating the VM -->
