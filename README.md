@@ -91,3 +91,77 @@ By the end of this lab, you should be able to say:
 2. [Backend Integration](./lab/tasks/required/task-2.md) — P0: slash commands + real data
 3. [Intent-Based Natural Language Routing](./lab/tasks/required/task-3.md) — P1: LLM tool use
 4. [Containerize and Document](./lab/tasks/required/task-4.md) — P3: containerize + deploy
+
+## Deploy
+
+### Prerequisites
+
+1. VM with Docker and docker-compose installed
+2. Qwen Code API proxy running on port 42005 (see lab setup step 1.9)
+3. Telegram bot token from @BotFather
+
+### Environment variables
+
+Create `.env.docker.secret` in the project root with:
+
+```text
+# Bot configuration
+BOT_TOKEN=your-telegram-bot-token-from-botfather
+LMS_API_URL=http://backend:8000
+LMS_API_KEY=your-lms-api-key
+LLM_API_KEY=your-qwen-api-key
+LLM_API_BASE_URL=http://host.docker.internal:42005/v1
+LLM_API_MODEL=coder-model
+```
+
+**Important:**
+- `LMS_API_URL` uses `backend:8000` (Docker service name), not `localhost:42002`
+- `LLM_API_BASE_URL` uses `host.docker.internal` to reach the Qwen proxy on the host
+- `BOT_TOKEN` must be a valid Telegram bot token
+
+### Deploy commands
+
+On your VM:
+
+```bash
+cd ~/se-toolkit-lab-7
+
+# Stop any running bot process
+pkill -f "bot.py" 2>/dev/null || true
+
+# Build and start all services
+docker compose --env-file .env.docker.secret up --build -d
+
+# Check status
+docker compose --env-file .env.docker.secret ps
+
+# View bot logs
+docker compose --env-file .env.docker.secret logs bot --tail 30
+```
+
+### Verify deployment
+
+1. **Check containers running:**
+   ```bash
+   docker compose --env-file .env.docker.secret ps
+   ```
+   Should show `bot`, `backend`, `postgres`, `caddy` all running.
+
+2. **Check backend healthy:**
+   ```bash
+   curl -sf http://localhost:42002/items/ -H "Authorization: Bearer YOUR_LMS_API_KEY"
+   ```
+
+3. **Test in Telegram:**
+   - `/start` — welcome message
+   - `/health` — backend status
+   - "what labs are available?" — LLM-powered query
+
+### Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| Bot container restarting | Check logs: `docker compose logs bot` |
+| LLM queries fail | Verify Qwen proxy: `curl http://localhost:42005/v1/models` |
+| Backend connection refused | Check `LMS_API_URL=http://backend:8000` |
+| BOT_TOKEN error | Ensure token is set in `.env.docker.secret` |
